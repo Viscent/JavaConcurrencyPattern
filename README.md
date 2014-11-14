@@ -1,4 +1,4 @@
-JavaConcurrencyPattern
+Java Concurrency Pattern
 ======================
 
-Java Cpncurrency Pattern
+Java Concurrency Pattern
