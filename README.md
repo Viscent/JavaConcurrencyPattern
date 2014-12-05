@@ -8,3 +8,5 @@ Active Object模式：
 http://www.infoq.com/cn/articles/Java-multithreaded-programming-mode-active-object-part1
 
 http://www.infoq.com/cn/articles/Java-multithreaded-programming-mode-active-object-part2
+
+Immutable Object模式（即将发表）：
