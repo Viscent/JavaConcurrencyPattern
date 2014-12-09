@@ -138,5 +138,4 @@ class Attachment implements Serializable {
 		return "Attachment [contentType=" + contentType + ", content="
 		    + content.length + "]";
 	}
-
 }

@@ -116,5 +116,4 @@ public class AsyncRequestPersistence implements RequestPersistence {
 
 		requestSubmittedPerIterval.incrementAndGet();
 	}
-
 }

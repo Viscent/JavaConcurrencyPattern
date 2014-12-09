@@ -108,5 +108,4 @@ public class AsyncPerformanceTest {
 		}, 2000, 2 * 1000);
 		Thread.sleep(3600 * 1000);
 	}
-
 }

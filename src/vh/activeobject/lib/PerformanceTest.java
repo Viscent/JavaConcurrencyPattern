@@ -88,5 +88,4 @@ public class PerformanceTest {
 		}, 2000, 2 * 1000);
 		Thread.sleep(3600 * 1000);
 	}
-
 }
