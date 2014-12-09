@@ -36,10 +36,9 @@ public class AsyncRequestPersistence implements RequestPersistence {
 	private final Logger logger;
 	private final AtomicLong taskTimeConsumedPerInterval = new AtomicLong(0);
 	private final AtomicInteger requestSubmittedPerIterval = new AtomicInteger(0);
-	
+
 	// ActiveObjectPattern.Servant
-	private final DiskbasedRequestPersistence 
-						delegate = new DiskbasedRequestPersistence();
+	private final DiskbasedRequestPersistence delegate = new DiskbasedRequestPersistence();
 
 	// ActiveObjectPattern.Scheduler
 	private final ThreadPoolExecutor scheduler;
@@ -50,40 +49,34 @@ public class AsyncRequestPersistence implements RequestPersistence {
 
 	private AsyncRequestPersistence() {
 		logger = Logger.getLogger(AsyncRequestPersistence.class);
-		scheduler = new ThreadPoolExecutor(1, 3, 
-				60 * ONE_MINUTE_IN_SECONDS,
-				TimeUnit.SECONDS,
-				// ActiveObjectPattern.ActivationQueue
-				new LinkedBlockingQueue<Runnable>(200), 
-				new ThreadFactory() {
-					@Override
-					public Thread newThread(Runnable r) {
-						Thread t;
-						t = new Thread(r, "AsyncRequestPersistence");
-						return t;
-					}
+		scheduler = new ThreadPoolExecutor(1, 3, 60 * ONE_MINUTE_IN_SECONDS,
+		    TimeUnit.SECONDS,
+		    // ActiveObjectPattern.ActivationQueue
+		    new LinkedBlockingQueue<Runnable>(200), new ThreadFactory() {
+			    @Override
+			    public Thread newThread(Runnable r) {
+				    Thread t;
+				    t = new Thread(r, "AsyncRequestPersistence");
+				    return t;
+			    }
 
-				});
+		    });
 
-		scheduler.setRejectedExecutionHandler(
-				new ThreadPoolExecutor.DiscardOldestPolicy());
+		scheduler
+		    .setRejectedExecutionHandler(new ThreadPoolExecutor.DiscardOldestPolicy());
 
 		// 启动队列监控定时任务
 		Timer monitorTimer = new Timer(true);
-		monitorTimer.scheduleAtFixedRate(
-		    new TimerTask() {
+		monitorTimer.scheduleAtFixedRate(new TimerTask() {
 
 			@Override
 			public void run() {
 				if (logger.isInfoEnabled()) {
 
-					logger.info("task count:" 
-							+ requestSubmittedPerIterval
-							+ ",Queue size:" 
-							+ scheduler.getQueue().size()
-							+ ",taskTimeConsumedPerInterval:"
-							+ taskTimeConsumedPerInterval.get() 
-							+ " ms");
+					logger.info("task count:" + requestSubmittedPerIterval
+					    + ",Queue size:" + scheduler.getQueue().size()
+					    + ",taskTimeConsumedPerInterval:"
+					    + taskTimeConsumedPerInterval.get() + " ms");
 				}
 
 				taskTimeConsumedPerInterval.set(0);
@@ -111,8 +104,8 @@ public class AsyncRequestPersistence implements RequestPersistence {
 				try {
 					delegate.store(request);
 				} finally {
-					taskTimeConsumedPerInterval.addAndGet(
-							System.currentTimeMillis() - start);
+					taskTimeConsumedPerInterval.addAndGet(System.currentTimeMillis()
+					    - start);
 				}
 
 				return Boolean.TRUE;

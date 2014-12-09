@@ -21,8 +21,8 @@ public class Test {
 	@Before
 	public void setUp() {
 		persistence = AsyncRequestPersistence.getInstance();
-		executor = new ThreadPoolExecutor(80, 200, 60 * 3600,
-				TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>(300));
+		executor = new ThreadPoolExecutor(80, 200, 60 * 3600, TimeUnit.SECONDS,
+		    new LinkedBlockingQueue<Runnable>(300));
 		try {
 			File file = new File("/home/viscent/tmp/callstack.png");
 			ByteBuffer contentBuf = ByteBuffer.allocate((int) file.length());
@@ -41,22 +41,23 @@ public class Test {
 			e.printStackTrace();
 		}
 	}
-	
+
 	final AtomicInteger counter = new AtomicInteger(0);
-	class RequestSenderThread extends Thread{
+
+	class RequestSenderThread extends Thread {
 		private int chunkSize;
 		private int timeSpan;
-		
-		public RequestSenderThread(int chunkSize,int timeSpan){
-			this.chunkSize=chunkSize;
-			this.timeSpan= timeSpan;
+
+		public RequestSenderThread(int chunkSize, int timeSpan) {
+			this.chunkSize = chunkSize;
+			this.timeSpan = timeSpan;
 		}
-		
+
 		@Override
 		public void run() {
-			int sleepCount=(chunkSize/timeSpan);
-			for(int i=0;i<chunkSize;i++){
-				
+			int sleepCount = (chunkSize / timeSpan);
+			for (int i = 0; i < chunkSize; i++) {
+
 				executor.execute(new Runnable() {
 
 					@Override
@@ -75,26 +76,26 @@ public class Test {
 
 					}
 				});
-				
-				//System.out.println(this.getId()+" sent "+i+1);
-				if(0==(i%sleepCount)){
+
+				// System.out.println(this.getId()+" sent "+i+1);
+				if (0 == (i % sleepCount)) {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
-				
+
 			}
 		}
-		
+
 	}
 
 	@org.junit.Test
 	public void testFaultIsolation() {
 		RequestSenderThread sender;
-		for(int i=0;i<10;i++){
-			sender=new RequestSenderThread(200000,10000);
+		for (int i = 0; i < 10; i++) {
+			sender = new RequestSenderThread(200000, 10000);
 			sender.start();
 		}
 
@@ -105,9 +106,8 @@ public class Test {
 		}
 
 	}
-	
-	
-	public void testTimeConsumption(){
+
+	public void testTimeConsumption() {
 		MMSDeliverRequest request = new MMSDeliverRequest();
 		request.setTransactionID(String.valueOf(counter.incrementAndGet()));
 		request.setSenderAddress("13612345678");
@@ -117,19 +117,19 @@ public class Test {
 		request.setSubject("Hi");
 		request.getRecipient().addTo("776");
 		request.setAttachment(attachment);
-		DiskbasedRequestPersistence rp=new DiskbasedRequestPersistence();
-		long start=System.currentTimeMillis();
+		DiskbasedRequestPersistence rp = new DiskbasedRequestPersistence();
+		long start = System.currentTimeMillis();
 		rp.store(request);
-		//About took 15ms to write a single file of 218KB
-		System.out.println("Took "+(System.currentTimeMillis()-start));
+		// About took 15ms to write a single file of 218KB
+		System.out.println("Took " + (System.currentTimeMillis() - start));
 	}
-	
-//	private void a(){
-//		ActiveObject ao=...;
-//		Future<String> future=ao.doSomething("e");
-//		//其它代码
-//		String result=future.get();
-//		System.out.println(result);
-//	}
+
+	// private void a(){
+	// ActiveObject ao=...;
+	// Future<String> future=ao.doSomething("e");
+	// //其它代码
+	// String result=future.get();
+	// System.out.println(result);
+	// }
 
 }

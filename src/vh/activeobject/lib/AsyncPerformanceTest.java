@@ -1,23 +1,17 @@
 package vh.activeobject.lib;
 
-import static org.junit.Assert.*;
-
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +26,6 @@ public class AsyncPerformanceTest {
 	
 	private BlockingQueue<Runnable> q;
 
-	@SuppressWarnings("unused")
 	private void processResult(String s) {
 
 	}

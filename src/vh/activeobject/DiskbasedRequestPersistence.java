@@ -28,8 +28,8 @@ public class DiskbasedRequestPersistence implements RequestPersistence {
 		String[] fileNameParts = storage.apply4Filename(request);
 		File file = new File(fileNameParts[0]);
 		try {
-			ObjectOutputStream objOut = new ObjectOutputStream(
-																		new FileOutputStream(file));
+			ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(
+			    file));
 			try {
 				objOut.writeObject(request);
 			} finally {
@@ -50,8 +50,7 @@ public class DiskbasedRequestPersistence implements RequestPersistence {
 		/*
 		 * Key->value: 存储子目录名->子目录下缓存文件计数器
 		 */
-		private Map<String, AtomicInteger> sectionFileCountMap 
-																		= new HashMap<String, AtomicInteger>();
+		private Map<String, AtomicInteger> sectionFileCountMap = new HashMap<String, AtomicInteger>();
 		private int maxFilesPerSection = 2000;
 		private int maxSectionCount = 100;
 		private String storageBaseDir = System.getProperty("user.dir") + "/vpn";
@@ -64,17 +63,17 @@ public class DiskbasedRequestPersistence implements RequestPersistence {
 			boolean need2RemoveSection = false;
 			String[] fileName = new String[2];
 			synchronized (sectionLock) {
-				//获取当前的存储子目录名
+				// 获取当前的存储子目录名
 				sectionName = this.getSectionName();
 				AtomicInteger fileCount;
 				fileCount = sectionFileCountMap.get(sectionName);
 				iFileCount = fileCount.get();
-				//当前存储子目录已满
+				// 当前存储子目录已满
 				if (iFileCount >= maxFilesPerSection) {
 					if (sectionNames.size() >= maxSectionCount) {
 						need2RemoveSection = true;
 					}
-					//创建新的存储子目录
+					// 创建新的存储子目录
 					sectionName = this.makeNewSectionDir();
 					fileCount = sectionFileCountMap.get(sectionName);
 
@@ -85,13 +84,12 @@ public class DiskbasedRequestPersistence implements RequestPersistence {
 
 			fileName[0] = storageBaseDir + "/" + sectionName + "/"
 			    + new DecimalFormat("0000").format(iFileCount) + "-"
-			    + request.getTimeStamp().getTime() / 1000 + "-" 
-			    + request.getExpiry()
+			    + request.getTimeStamp().getTime() / 1000 + "-" + request.getExpiry()
 			    + ".rq";
 			fileName[1] = sectionName;
 
 			if (need2RemoveSection) {
-				//删除最老的存储子目录
+				// 删除最老的存储子目录
 				String oldestSectionName = sectionNames.removeFirst();
 				this.removeSection(oldestSectionName);
 			}

@@ -12,7 +12,7 @@ public class MMSDeliverRequest implements Serializable {
 	private String senderAddress;
 	private Recipient recipient = new Recipient();
 	private String subject;
-	private Attachment attachment=new Attachment();
+	private Attachment attachment = new Attachment();
 
 	public long getExpiry() {
 		return expiry;
@@ -88,16 +88,16 @@ public class MMSDeliverRequest implements Serializable {
 	@Override
 	public String toString() {
 		return "MM7DeliverRequest [transactionID=" + transactionID
-				+ ", messageType=" + messageType + ", senderAddress="
-				+ senderAddress + ", recipient=" + recipient + ", subject="
-				+ subject + ", attachment=" + attachment + "]";
+		    + ", messageType=" + messageType + ", senderAddress=" + senderAddress
+		    + ", recipient=" + recipient + ", subject=" + subject + ", attachment="
+		    + attachment + "]";
 	}
 
 	private static final long serialVersionUID = 302185079311891797L;
 
 }
 
-class Recipient implements Serializable{
+class Recipient implements Serializable {
 
 	private static final long serialVersionUID = -5427696559429827584L;
 	private Set<String> to = new HashSet<String>();
@@ -112,10 +112,10 @@ class Recipient implements Serializable{
 
 }
 
-class Attachment implements Serializable{
+class Attachment implements Serializable {
 	private static final long serialVersionUID = -313285270497968496L;
 	private String contentType;
-	private byte[] content=new byte[0];
+	private byte[] content = new byte[0];
 
 	public String getContentType() {
 		return contentType;
@@ -136,7 +136,7 @@ class Attachment implements Serializable{
 	@Override
 	public String toString() {
 		return "Attachment [contentType=" + contentType + ", content="
-				+ content.length + "]";
+		    + content.length + "]";
 	}
 
 }
