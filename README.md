@@ -12,3 +12,8 @@ http://www.infoq.com/cn/articles/Java-multithreaded-programming-mode-active-obje
 Immutable Object模式：
 
 http://www.infoq.com/cn/articles/java-multithreaded-programming-mode-immutable-object
+
+Two-phase Termination模式：
+
+http://www.infoq.com/cn/articles/java-multithreaded-programming-mode-two-phase-termination
+
