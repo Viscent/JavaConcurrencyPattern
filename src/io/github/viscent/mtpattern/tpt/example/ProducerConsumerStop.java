@@ -6,7 +6,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
-
 public class ProducerConsumerStop {
 	private static class SampleConsumer<P> {
 		private final BlockingQueue<P> queue = new LinkedBlockingQueue<P>();
