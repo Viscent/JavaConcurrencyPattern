@@ -11,20 +11,15 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPClientConfig;
 import org.apache.commons.net.ftp.FTPReply;
 
 public class FTPClientUtil {
-	private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
-	    1, Runtime.getRuntime().availableProcessors() * 2, 60, TimeUnit.SECONDS,
-	    new LinkedBlockingQueue<Runnable>());
+//	private static ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+//	    1, Runtime.getRuntime().availableProcessors() * 2, 60, TimeUnit.SECONDS,
+//	    new LinkedBlockingQueue<Runnable>());
 	
 	private final FTPClient ftp = new FTPClient();
 	private final Map<String, Boolean> dirCreateMap = new HashMap<String, Boolean>();
@@ -53,7 +48,7 @@ public class FTPClientUtil {
 		// 下面这行代码与本案例的实际代码并不一致，这是为了讨论方便。
 		new Thread(task).start();
 
-		threadPoolExecutor.execute(task);
+//		threadPoolExecutor.execute(task);
 		return task;
 	}
 
@@ -142,6 +137,6 @@ public class FTPClientUtil {
 	}
 
 	public static void dispose() {
-		threadPoolExecutor.shutdown();
+//		threadPoolExecutor.shutdown();
 	}
 }
